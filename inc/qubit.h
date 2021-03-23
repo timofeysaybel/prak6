@@ -4,8 +4,6 @@
 #include <cmath>
 #include <omp.h>
 
-using namespace std;
+std::complex<double>* getRandVec(int n);
 
-complex<double>* getRandVec(int n);
-
-complex<double>* qubitConvert(complex<double> *U, int n, complex<double> *P, int k);
+std::complex<double>* qubitConvert(std::complex<double> *U, int n, std::complex<double> *P, int k);

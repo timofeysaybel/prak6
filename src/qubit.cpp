@@ -1,5 +1,7 @@
 #include "../inc/qubit.h"
 
+using namespace std;
+
 complex<double>* getRandVec(int n)
 {
     unsigned long long i, m = 1 << n;
@@ -7,11 +9,17 @@ complex<double>* getRandVec(int n)
 
     srand(time(NULL));
 
+    double module = 0;
     for (i = 0; i < m; i++)
     {
         res[i].real(rand() / omp_get_wtime());
         res[i].imag(rand() / omp_get_wtime());
+        module += abs(res[i] * res[i]);
     }
+    module = sqrt(module);
+
+    for (i = 0; i < m; i++) 
+        res[i] /= module;
 
     return res;
 }

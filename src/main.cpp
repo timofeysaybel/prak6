@@ -1,4 +1,7 @@
 #include <fstream>
+#include <iostream>
+#include <cstdlib>
+#include <omp.h>
 
 #include "../inc/qubit.h"
 

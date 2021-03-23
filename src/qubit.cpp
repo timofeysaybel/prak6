@@ -1,3 +1,6 @@
+#include <cmath>
+#include <omp.h>
+
 #include "../inc/qubit.h"
 
 using namespace std;

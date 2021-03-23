@@ -14,6 +14,4 @@ report: main.out
 		done \
 	done
 
-rep: main.out
-	./test.sh
 

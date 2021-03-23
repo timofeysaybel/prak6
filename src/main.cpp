@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "../inc/qubit.h"
 
 int main(int argc,char **argv)
@@ -14,22 +16,26 @@ int main(int argc,char **argv)
     num = atoi(argv[3]);
     omp_set_num_threads(num);
 
-	complex<double> *A = gen(n);
-	double time = omp_get_wtime();
+	complex<double> *U = getRandVec(n);
 	complex<double> P[] = {1/sqrt(2), 1/sqrt(2), 1/sqrt(2), -1/sqrt(2)};
-	complex<double> *B = f(A, n, P, k);
+	double time = omp_get_wtime();
+    complex<double> *W = qubitConvert(U, n, P, k);
 	time = omp_get_wtime() - time;
     
-    /*
-	unsigned long long i, m = 1LLU << n;
-	for (i = 0; i < m; ++i) cout << A[i] << endl;
-	cout << endl;
-	for (i = 0; i < m; ++i) cout << B[i] << endl;
-	*/
+    /*ofstream fileU("result/U"), fileW("result/W");
+	unsigned long long i, m = 1 << n;
+	for (i = 0; i < m; i++) 
+        fileU << U[i] << endl;
+        
+	for (i = 0; i < m; i++) 
+        fileW << W[i] << endl;
+	fileU.close();
+    fileW.close();*/
 
-	cout << n << '\t' << k << '\t' << num << '\t' << time << endl;
-	delete [] A;
-	delete [] B;
-
+    ofstream rep("report/report.dat",ios::app);
+	rep << n << '\t' << k << '\t' << num << '\t' << time << endl;
+	delete [] U;
+	delete [] W;
+    rep.close();
     return 0;
 }

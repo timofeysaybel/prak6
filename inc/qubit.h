@@ -6,6 +6,6 @@
 
 using namespace std;
 
-complex<double>* gen(int n);
+complex<double>* getRandVec(int n);
 
-complex<double>* f(complex<double> *A, int n, complex<double> *P, int k);
+complex<double>* qubitConvert(complex<double> *U, int n, complex<double> *P, int k);

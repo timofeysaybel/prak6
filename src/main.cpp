@@ -5,15 +5,18 @@
 #include <iostream>
 
 typedef std::complex<double> complexd;
-
 static int rank, size, log_size;
+
 
 unsigned long long num_of_doubles(int n);
 
+///Чтение входного вектора из файла f
 complexd* read(char *f, int *n);
 
+///Однокубитное квантовое преобразование
 complexd *qubitConvert(complexd *A, int n, int k, complexd *P);
 
+///Запись результата B в файл f
 void write(char *f, complexd *B, int n);
 
 

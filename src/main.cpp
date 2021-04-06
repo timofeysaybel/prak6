@@ -8,7 +8,7 @@ typedef std::complex<double> complexd;
 static int rank, size, log_size;
 
 
-unsigned long long num_of_doubles(int n);
+unsigned long long numOfDoubles(int n);
 
 ///Чтение входного вектора из файла f
 complexd* read(char *f, int *n);
@@ -87,7 +87,7 @@ complexd *read(char *f, int *n)
 
     MPI_Bcast(n, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    unsigned long long m = num_of_doubles(*n);
+    unsigned long long m = numOfDoubles(*n);
     complexd *A = new complexd[m];
     double d[2];
 
@@ -104,7 +104,7 @@ complexd *read(char *f, int *n)
 
 complexd *qubitConvert(complexd *A, int n, int k, complexd *P)
 {
-    unsigned long long m = num_of_doubles(n);
+    unsigned long long m = numOfDoubles(n);
     complexd *B = new complexd[m];
     if (k > log_size)
     {
@@ -132,7 +132,7 @@ complexd *qubitConvert(complexd *A, int n, int k, complexd *P)
     return B;
 }
 
-unsigned long long num_of_doubles(int n)
+unsigned long long numOfDoubles(int n)
 {
     if (log_size > n)
     {
@@ -157,7 +157,7 @@ void write(char *f, complexd *B, int n)
     if (!rank)
         MPI_File_write(file, &n, 1, MPI_INT, MPI_STATUS_IGNORE);
     
-    unsigned long long m = num_of_doubles(n);
+    unsigned long long m = numOfDoubles(n);
     double d[2];
     MPI_File_seek(file, sizeof(int) + 2 * m * rank * sizeof(double), MPI_SEEK_SET);
     

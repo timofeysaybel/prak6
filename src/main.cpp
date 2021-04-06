@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 
     for (log_size = 0; !((size >> log_size) & 1); log_size++);
 
+	if (!rank)
+		std::cout << log_size << std::endl;
+
     if (argc < 3)
     {
         if (!rank)
@@ -119,12 +122,12 @@ complexd *qubitConvert(complexd *A, int n, int k, complexd *P)
         MPI_Sendrecv(A, m, MPI_DOUBLE_COMPLEX, rank1, 0, BUF, m, MPI_DOUBLE_COMPLEX, rank1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         if (rank < rank1)
         {
-            for (unsigned long long i = 0; i < m; ++i)
+            for (unsigned long long i = 0; i < m; i++)
                 B[i] = P[0] * A[i] + P[1] * BUF[i];
         }
         else
         {
-            for (unsigned long long i = 0; i < m; ++i)
+            for (unsigned long long i = 0; i < m; i++)
                 B[i] = P[2] * BUF[i] + P[3] * A[i];
         }
         delete[] BUF;

@@ -30,9 +30,6 @@ int main(int argc, char **argv)
 
     for (log_size = 0; !((size >> log_size) & 1); log_size++);
 
-	if (!rank)
-		std::cout << log_size << std::endl;
-
     if (argc < 3)
     {
         if (!rank)

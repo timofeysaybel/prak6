@@ -16,7 +16,7 @@ complexd *qubitHadamard(complexd *A, int n, double e);
 
 unsigned long long numOfDoubles(int n);
 
-complexd dot(complexd *A, complexd *B, int n);
+complexd mult(complexd *A, complexd *B, int n);
 
 ///Чтение входного вектора из файла f
 complexd *read(char *f, int *n);
@@ -49,27 +49,28 @@ int main(int argc, char **argv)
     delete[] A;
 
     MPI_Barrier(MPI_COMM_WORLD);
-    double lost = abs(dot(B, C, n));
-    if (!rank)
-        std::cout << lost << std::endl;
+    double lost = abs(mult(B, C, n));
+
     lost = 1.0 - lost * lost;
     if (lost < 0.0)
         lost = 0.0;
 
-    if (argc > 5)
-        write(argv[5], B, n);
+    write(argv[5], B, n);
 
     delete[] B;
     delete[] C;
+
     MPI_Reduce(&time, &timeMAX, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
     if (!rank)
     {
         std::ofstream file(argv[6], std::ios_base::app);
         file << size << "\t" << threads << "\t" << n << "\t" << e << "\t" << lost << "\t" << timeMAX << std::endl;
+        file.close();
     }
     MPI_Finalize();
     return 0;
 }
+
 
 complexd *read(char *f, int *n)
 {
@@ -163,11 +164,11 @@ void write(char *f, complexd *B, int n)
     }
     if (!rank)
         MPI_File_write(file, &n, 1, MPI_INT, MPI_STATUS_IGNORE);
-
+    
     unsigned long long m = numOfDoubles(n);
     double d[2];
     MPI_File_seek(file, sizeof(int) + 2 * m * rank * sizeof(double), MPI_SEEK_SET);
-
+    
     for (unsigned long long i = 0; i < m; i++)
     {
         d[0] = B[i].real();
@@ -220,7 +221,7 @@ complexd *qubitHadamard(complexd *A, int n, double e)
     return B;
 }
 
-complexd dot(complexd *A, complexd *B, int n)
+complexd mult(complexd *A, complexd *B, int n)
 {
     unsigned long long m = numOfDoubles(n);
     complexd x(0.0, 0.0), y(0.0, 0.0);
@@ -263,7 +264,7 @@ int init(int argc, char **argv, int *n, double *e)
     if (argc < 3)
     {
         if (!rank)
-            std::cout << "Параметры командной строки: " << argv[0] << " n e threads infile (outfile) report" << std::endl;
+            std::cout << "Параметры командной строки: " << argv[0] << " n e threads infile outfile report" << std::endl;
 
         MPI_Finalize();
         return 1;

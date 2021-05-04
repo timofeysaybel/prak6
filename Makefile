@@ -10,17 +10,20 @@ compare.out: src/compare.cpp
 qubit.out: src/main.cpp
 	mpixlcxx_r src/main.cpp -o qubit.out 
 
-test: generate.out compare.out qubit.out
-	mpirun generate.out 16 vectors/test && mpirun -np 1 qubit.out 16 1 vectors/test vectors/testRes && \
+qubitxx.out: src/main.cpp
+	mpic++ src/main.cpp -o qubit.out -fopenmp
+
+test: generate.out compare.out qubitxx.out
+	mpirun generate.out 16 vectors/test && mpirun -np 1 qubit.out 16 0.01 1 vectors/test vectors/testRes report/test.dat && \
 		for i in 2 4 8; do \
-			mpirun --oversubscribe -np $$i qubit.out 16 1 vectors/test vectors/tRes && ./compare.out vectors/testRes vectors/tRes; \
+			mpirun --oversubscribe -np $$i qubit.out 16 0.01 1 vectors/test vectors/tRes report/test.dat && ./compare.out vectors/testRes vectors/tRes; \
 		done
 
 RUN = mpisubmit.bg -n
 
 generate: generate.out
 	for i in 24 25 26 27 28; do \
-		mpisubmit.bg -n 8 generate.out $$i vectors/report$$i; \
+		$(RUN) 8 generate.out $$i vectors/report$$i; \
 	done
 
 report: qubit.out generate

@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	for (i = 0; i < k; i++)
 	{
-		d[i] = rand();
+		d[i] = rand() / MPI_Wtime();
 		sqr += d[i] * d[i];
 	}
 

@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 	{
 		f1.read((char *)&x, 2 * sizeof(double));
 		f2.read((char *)&y, 2 * sizeof(double));
-		if ((abs(x[0] - y[0]) > epsilon) or (abs(x[1] - y[1]) > epsilon))
+		if ((abs(x[0] - y[0]) > epsilon) || (abs(x[1] - y[1]) > epsilon))
 		{
 			cout << "Некорректно: элементы вектора отличаются более чем на " << scientific << epsilon << endl;
 			f1.close();

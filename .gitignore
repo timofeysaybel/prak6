@@ -1,0 +1,8 @@
+*.err
+*.out
+tests/H/*.dat 
+tests/nH/*.dat 
+tests/NOT/*.dat 
+tests/CNOT/*.dat 
+tests/ROT/*.dat 
+tests/CROT/*.dat

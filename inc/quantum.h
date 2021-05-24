@@ -141,7 +141,7 @@ namespace Quantum
             rank2id[ranks[j + 1]] = j;
         }
 
-#pragma omp parallel
+        #pragma omp parallel
         {
             complexd *vec = new complexd[l];
             unsigned int x = 0, id0;          // P line number, rank id
@@ -149,7 +149,7 @@ namespace Quantum
             const unsigned long long tmp0 = rank << (n - logSize),
                                      tmp1 = ~((~0) << (n - logSize));
 
-#pragma omp for schedule(guided)
+            #pragma omp for schedule(guided)
             for (unsigned long long j = 0; j < m; ++j)
             {
                 tmp = (tmp0 ^ j) & ~masks[l - 1];
@@ -214,7 +214,7 @@ namespace Quantum
 
         complexd *B = new complexd[m], *C = new complexd[m], *T, *buf = new complexd[m];
 
-#pragma omp parallel for schedule(guided)
+        #pragma omp parallel for schedule(guided)
         for (unsigned long long i = 0; i < m; i++)
         {
             B[i] = A[i];

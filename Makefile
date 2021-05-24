@@ -58,7 +58,7 @@ tests: testH testnH testNOT testCNOT testROT testCROT
 
 report: main.out generate
 	for i in 20 24; do \
-		for j in 1 2 4 8 16 32; do \
+		for j in 1 2 4 8 16; do \
 			$(PL) $$j main.out 1 tests/nH/in$$i.dat tests/nH/out$$i.dat report/nH.dat < tests/nH/stdin > /dev/null; \
 			$(PL) $$j main.out 1 tests/CNOT/in$$i.dat tests/CNOT/out$$i.dat report/CNOT.dat < tests/CNOT/stdin > /dev/null; \
 		done \

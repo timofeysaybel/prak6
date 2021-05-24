@@ -6,4 +6,3 @@ tests/NOT/*.dat
 tests/CNOT/*.dat 
 tests/ROT/*.dat 
 tests/CROT/*.dat
-report/*.swp

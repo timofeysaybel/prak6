@@ -6,12 +6,6 @@
 
 #include "../inc/quantum.h"
 
-bool Quantum::initFlag = false;
-int Quantum::logSize = 0;
-int Quantum::size = 0;
-int Quantum::rank = 0;
-int Quantum::threads = 0;
-
 int main(int argc, char **argv)
 {
     Quantum::initFlag = false;
@@ -77,47 +71,37 @@ int main(int argc, char **argv)
             MPI_Bcast(&a, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         }
         double time, timeMAX;
+        time = MPI_Wtime();
         switch(t)
         {
             case 1:
-                time = MPI_Wtime();
                 B = Quantum::Hadamard(A, n, k[0]);
-                time = MPI_Wtime() - time;
                 break;
 
             case 2:
-                time = MPI_Wtime();
                 B = Quantum::nHadamard(A, n);
-                time = MPI_Wtime() - time;
                 break;
 
             case 3:
-                time = MPI_Wtime();
                 B = Quantum::ROT(A, n, k[0], a);
-                time = MPI_Wtime() - time;
                 break;
 
             case 4:
-                time = MPI_Wtime();
                 B = Quantum::NOT(A, n, k[0]);
-                time = MPI_Wtime() - time;
                 break;
 
             case 5:
-                time = MPI_Wtime();
                 B = Quantum::CNOT(A, n, k[0], k[1]);
-                time = MPI_Wtime() - time;
                 break;
 
             case 6:
-                time = MPI_Wtime();
                 B = Quantum::CROT(A, n, k[0], k[1], a);
-                time = MPI_Wtime() - time;
                 break;
 
             default:
                 break;
         }
+        time = MPI_Wtime() - time;
         MPI_Reduce(&time, &timeMAX, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
         if (!rank && argc == 5)
         {
